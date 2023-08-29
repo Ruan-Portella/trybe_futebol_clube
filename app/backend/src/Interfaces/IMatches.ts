@@ -5,12 +5,6 @@ interface IMatches {
   awayTeamId: number,
   awayTeamGoals: number,
   inProgress: boolean,
-  homeTeam: {
-    teamName: string,
-  }
-  awayTeam: {
-    teamName: string,
-  }
 }
 
 export default IMatches;
