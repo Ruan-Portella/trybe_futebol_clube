@@ -1,5 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
+import * as jwt from 'jsonwebtoken';
 
+interface token extends Request {
+  token?: object;
+}
 export default class ValidateLogin {
   static async validate(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
     const { email, password } = req.body;
@@ -38,5 +42,24 @@ export default class ValidateLogin {
       );
     }
     next();
+  }
+
+  static async validateToken(
+    req: token,
+    res: Response,
+    next: NextFunction,
+  ): Promise<Response | void> {
+    const { authorization } = req.headers;
+    if (!authorization) {
+      return res.status(401).json({ message: 'Token not found' });
+    }
+    try {
+      const tokenWithoutBearer = authorization.replace('Bearer ', '');
+      const token = await jwt.verify(tokenWithoutBearer, process.env.JWT_SECRET as string);
+      req.token = token as object;
+      return next();
+    } catch (error) {
+      return res.status(401).json({ message: 'Token must be a valid token' });
+    }
   }
 }
