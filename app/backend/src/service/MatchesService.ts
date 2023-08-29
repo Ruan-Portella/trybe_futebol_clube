@@ -1,14 +1,17 @@
+import TeamModel from '../model/TeamModel';
+import { ITeamsModel } from '../Interfaces/ITeamsModel';
 import MatcheModel from '../model/MatcheModel';
 import IMatcheModel from '../Interfaces/IMatchesModels';
 import IMatches from '../Interfaces/IMatches';
 
 export default class MatchesService {
   constructor(
-    private teamModel: IMatcheModel = new MatcheModel(),
+    private matchModel: IMatcheModel = new MatcheModel(),
+    private teamModel: ITeamsModel = new TeamModel(),
   ) {}
 
   public async findAll(query: string | undefined): Promise<IMatches[]> {
-    const matches = await this.teamModel.findAll();
+    const matches = await this.matchModel.findAll();
 
     if (!query) {
       return matches;
@@ -22,12 +25,12 @@ export default class MatchesService {
   }
 
   public async finishMatchesInProgress(id: number): Promise<boolean> {
-    await this.teamModel.finishMatchesInProgress(id);
+    await this.matchModel.finishMatchesInProgress(id);
     return true;
   }
 
   public async updateMatch(id: number, homeTeam: number, awayTeam: number): Promise<boolean> {
-    await this.teamModel.updateMatch(id, homeTeam, awayTeam);
+    await this.matchModel.updateMatch(id, homeTeam, awayTeam);
     return true;
   }
 
@@ -36,13 +39,20 @@ export default class MatchesService {
     awayTeamId: number,
     homeTeamGoals: number,
     awayTeamGoals: number,
-  ): Promise<IMatches> {
-    const match = await this.teamModel.createMatch(
+  ): Promise<{ status: number, data: { message: string } | IMatches }> {
+    const homeTeam = await this.teamModel.findOne(homeTeamId);
+    const awayTeam = await this.teamModel.findOne(awayTeamId);
+
+    if (!homeTeam || !awayTeam) {
+      return { status: 404, data: { message: 'There is no team with such id!' } };
+    }
+
+    const match = await this.matchModel.createMatch(
       homeTeamId,
       awayTeamId,
       homeTeamGoals,
       awayTeamGoals,
     );
-    return match;
+    return { status: 201, data: match };
   }
 }
