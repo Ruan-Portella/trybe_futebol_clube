@@ -55,7 +55,7 @@ export default class ValidateLogin {
     }
     try {
       const tokenWithoutBearer = authorization.replace('Bearer ', '');
-      const token = await jwt.verify(tokenWithoutBearer, process.env.JWT_SECRET as string);
+      const token = await jwt.verify(tokenWithoutBearer, 'teste');
       req.token = token as object;
       return next();
     } catch (error) {

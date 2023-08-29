@@ -16,7 +16,7 @@ export default class UserService {
       return { status: 401,
         message: { message: 'Invalid email or password' } };
     }
-    const token = await jwt.sign({ id: user.id }, process.env.JWT_SECRET as string);
+    const token = await jwt.sign({ id: user.id }, 'teste');
     return { status: 200, message: { token } };
   }
 
