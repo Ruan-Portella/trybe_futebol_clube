@@ -18,5 +18,10 @@ router.patch(
   ValidateLogin.validateToken,
   (req: Request, res: Response) => matchersController.updateMatch(req, res),
 );
+router.post(
+  '/',
+  ValidateLogin.validateToken,
+  (req: Request, res: Response) => matchersController.createMatch(req, res),
+);
 
 export default router;
