@@ -1,3 +1,4 @@
+import IMatches from '../Interfaces/IMatches';
 import TeamsModel from '../database/models/TeamsModel';
 import MatchesModels from '../database/models/MatchersModel';
 import IMachesModel from '../Interfaces/IMatchesModels';
@@ -5,7 +6,7 @@ import IMachesModel from '../Interfaces/IMatchesModels';
 export default class MatcheModel implements IMachesModel {
   private model = MatchesModels;
 
-  public async findAll(): Promise<unknown> {
+  public async findAll(): Promise<IMatches[]> {
     const matchers = await this.model.findAll({
       include: [{
         model: TeamsModel, as: 'homeTeam', attributes: { exclude: ['id'] } },
@@ -13,7 +14,7 @@ export default class MatcheModel implements IMachesModel {
         model: TeamsModel, as: 'awayTeam', attributes: { exclude: ['id'] },
       }],
     });
-    return matchers as unknown;
+    return matchers as IMatches[];
   }
 
   public async finishMatchesInProgress(id: number): Promise<boolean> {

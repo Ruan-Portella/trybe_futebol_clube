@@ -1,5 +1,7 @@
+import IMatches from './IMatches';
+
 export interface IMatchesModel {
-  findAll(): Promise<unknown>;
+  findAll(): Promise<IMatches[]>;
   finishMatchesInProgress(id: number): Promise<boolean>;
 }
 
