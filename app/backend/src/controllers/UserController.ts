@@ -7,8 +7,9 @@ export default class UserController {
   ) {}
 
   public async findOne(req: Request, res: Response): Promise<Response> {
-    const { email } = req.body;
-    const user = await this.userService.findOne(email) as { message: string };
-    return res.status(200).json(user.message);
+    const { email, password } = req.body;
+    const user = await this.userService.findOne(email, password) as
+    { status: number, message: string };
+    return res.status(user.status).json(user.message);
   }
 }
