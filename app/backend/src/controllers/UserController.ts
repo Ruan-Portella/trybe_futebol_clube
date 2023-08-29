@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import UserService from '../service/UserService';
 
 interface token extends Request {
-  token?: any;
+  token?: { id: string };
 }
 
 export default class UserController {
@@ -19,6 +19,7 @@ export default class UserController {
 
   public async findById(req: token, res: Response): Promise<Response> {
     const { token } = req;
+    if (!token) return res.status(401).json({ message: 'missing auth token' });
     const user = await this.userService.findById(token.id) as { status: number, message: string };
     return res.status(user.status).json(user.message);
   }
