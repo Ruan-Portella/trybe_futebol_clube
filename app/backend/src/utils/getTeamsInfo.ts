@@ -56,6 +56,26 @@ const getTeamsAway = (id: number, teamName: string, matches: IMatches[]) => {
   return team;
 };
 
+function getTeamsInfo(id: number, teamName: string, matches: IMatches[]) {
+  const teamHome = getTeamsHome(id, teamName, matches);
+  const teamAway = getTeamsAway(id, teamName, matches);
+  const team = {
+    name: teamName,
+    ...objTeam,
+  };
+  team.totalGames = teamHome.totalGames + teamAway.totalGames;
+  team.goalsFavor = teamHome.goalsFavor + teamAway.goalsFavor;
+  team.goalsOwn = teamHome.goalsOwn + teamAway.goalsOwn;
+  team.totalVictories = teamHome.totalVictories + teamAway.totalVictories;
+  team.totalLosses = teamHome.totalLosses + teamAway.totalLosses;
+  team.totalDraws = teamHome.totalDraws + teamAway.totalDraws;
+  team.totalPoints = teamHome.totalPoints + teamAway.totalPoints;
+  team.goalsBalance = teamHome.goalsBalance + teamAway.goalsBalance;
+  team.efficiency = `${((team.totalPoints / (team.totalGames * 3)) * 100).toFixed(2)}`;
+
+  return team;
+}
+
 export default {
-  getTeamsHome, getTeamsAway,
+  getTeamsHome, getTeamsAway, getTeamsInfo,
 };
