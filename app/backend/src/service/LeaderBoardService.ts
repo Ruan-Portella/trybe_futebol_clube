@@ -1,3 +1,4 @@
+import getOrderTeams from '../utils/getOrderTeams';
 import getTeamsHome from '../utils/getTeamsInfo';
 import TeamModel from '../model/TeamModel';
 import { ITeamsModel } from '../Interfaces/ITeamsModel';
@@ -13,12 +14,17 @@ export default class LeaderBoardService {
   public async getLeaderBoard(): Promise<unknown> {
     const teams = await this.teamModel.findAll();
     const matches = await this.matchModel.findAll();
+    const matchesFinished = matches.filter((m) => m.inProgress === false);
 
     const leaderBoard = teams.map((team) => {
-      const infoLeader = getTeamsHome(team.id, team.teamName, matches);
+      const infoLeader = getTeamsHome(
+        team.id,
+        team.teamName,
+        matchesFinished,
+      );
       return infoLeader;
     });
-
-    return leaderBoard;
+    const orderLeaderBoard = await getOrderTeams(leaderBoard);
+    return orderLeaderBoard;
   }
 }
