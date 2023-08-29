@@ -10,6 +10,8 @@ const router = Router();
 router.post(
   '/',
   ValidateLogin.validate,
+  ValidateLogin.validateEmail,
+  ValidateLogin.validatePassword,
   (req: Request, res: Response) => teamController.findOne(req, res),
 );
 
