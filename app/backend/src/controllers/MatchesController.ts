@@ -11,4 +11,10 @@ export default class TeamController {
     const matches = await this.matchesService.findAll(inProgress as string);
     return res.status(200).json(matches);
   }
+
+  public async finishMatchesInProgress(req: Request, res: Response): Promise<Response> {
+    const { id } = req.params;
+    await this.matchesService.finishMatchesInProgress(Number(id));
+    return res.status(200).json({ message: 'Finished' });
+  }
 }
