@@ -16,7 +16,13 @@ export default class UserService {
       return { status: 401,
         message: { message: 'Invalid email or password' } };
     }
-    const token = jwt.sign(email, process.env.JWT_SECRET as string);
+    const token = await jwt.sign({ id: user.id }, process.env.JWT_SECRET as string);
     return { status: 200, message: { token } };
+  }
+
+  public async findById(id: string): Promise<unknown> {
+    const user = await this.userModel.findById(id);
+    if (!user) return { status: 401, message: { message: 'user not found' } };
+    return { status: 200, message: { role: user.role } };
   }
 }
