@@ -34,4 +34,28 @@ const getTeamsHome = (id: number, teamName: string, matches: IMatches[]) => {
   return team;
 };
 
-export default getTeamsHome;
+const getTeamsAway = (id: number, teamName: string, matches: IMatches[]) => {
+  const teamMatches = matches.filter((match) => match.awayTeamId === id);
+  const team = {
+    name: teamName,
+    ...objTeam,
+  };
+
+  teamMatches.forEach((match) => {
+    team.totalGames += 1;
+    team.goalsFavor += match.awayTeamGoals;
+    team.goalsOwn += match.homeTeamGoals;
+    team.totalVictories += match.homeTeamGoals < match.awayTeamGoals ? 1 : 0;
+    team.totalLosses += match.homeTeamGoals > match.awayTeamGoals ? 1 : 0;
+    team.totalDraws += match.homeTeamGoals === match.awayTeamGoals ? 1 : 0;
+  });
+
+  team.totalPoints += (team.totalVictories * 3) + team.totalDraws;
+  team.goalsBalance = team.goalsFavor - team.goalsOwn;
+  team.efficiency = `${((team.totalPoints / (team.totalGames * 3)) * 100).toFixed(2)}`;
+  return team;
+};
+
+export default {
+  getTeamsHome, getTeamsAway,
+};
