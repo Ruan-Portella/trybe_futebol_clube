@@ -25,4 +25,9 @@ export default class MatchesService {
     await this.teamModel.finishMatchesInProgress(id);
     return true;
   }
+
+  public async updateMatch(id: number, homeTeam: number, awayTeam: number): Promise<boolean> {
+    await this.teamModel.updateMatch(id, homeTeam, awayTeam);
+    return true;
+  }
 }
