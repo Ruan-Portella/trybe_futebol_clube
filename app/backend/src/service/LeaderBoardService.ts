@@ -35,4 +35,17 @@ export default class LeaderBoardService {
     const orderLeaderBoard = await getOrderTeams(leaderBoard);
     return orderLeaderBoard;
   }
+
+  public async getLeaderBoard(): Promise<unknown> {
+    const teams = await this.teamModel.findAll();
+    const matches = await this.matchModel.findAll();
+    const matchesFinished = matches.filter((m) => m.inProgress === false);
+
+    const leaderBoard = teams.map((team) => {
+      const infoLeader = getTeams.getTeamsInfo(team.id, team.teamName, matchesFinished);
+      return infoLeader;
+    });
+    const orderLeaderBoard = await getOrderTeams(leaderBoard);
+    return orderLeaderBoard;
+  }
 }
