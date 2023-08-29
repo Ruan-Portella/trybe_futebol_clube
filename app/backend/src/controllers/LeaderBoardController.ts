@@ -6,8 +6,13 @@ export default class TeamController {
     private matchesService = new LeaderBoardService(),
   ) {}
 
-  public async getLeaderBoard(req: Request, res: Response): Promise<Response> {
-    const leaderBoard = await this.matchesService.getLeaderBoard();
+  public async getLeaderBoardHome(req: Request, res: Response): Promise<Response> {
+    const leaderBoard = await this.matchesService.getLeaderBoardHome();
+    return res.status(200).json(leaderBoard);
+  }
+
+  public async getLeaderBoardAway(req: Request, res: Response): Promise<Response> {
+    const leaderBoard = await this.matchesService.getLeaderBoardAway();
     return res.status(200).json(leaderBoard);
   }
 }
