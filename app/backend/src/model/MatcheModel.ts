@@ -29,4 +29,16 @@ export default class MatcheModel implements IMachesModel {
     );
     return true;
   }
+
+  public async createMatch(
+    homeTeamId: number,
+    awayTeamId: number,
+    homeTeamGoals: number,
+    awayTeamGoals: number,
+  ): Promise<IMatches> {
+    const match = await this.model.create({
+      homeTeamId, homeTeamGoals, awayTeamId, awayTeamGoals, inProgress: true,
+    });
+    return match as IMatches;
+  }
 }
