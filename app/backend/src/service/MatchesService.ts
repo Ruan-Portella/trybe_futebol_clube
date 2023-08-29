@@ -20,4 +20,9 @@ export default class MatchesService {
 
     return matches.filter((match) => match.inProgress === false);
   }
+
+  public async finishMatchesInProgress(id: number): Promise<boolean> {
+    await this.teamModel.finishMatchesInProgress(id);
+    return true;
+  }
 }
