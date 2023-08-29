@@ -16,4 +16,9 @@ export default class MatcheModel implements IMachesModel {
     });
     return matchers as unknown as IMaches[];
   }
+
+  public async finishMatchesInProgress(id: number): Promise<boolean> {
+    await this.model.update({ inProgress: false }, { where: { id } });
+    return true;
+  }
 }
