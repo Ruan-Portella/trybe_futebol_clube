@@ -1,5 +1,6 @@
 import { Request, Response, Router } from 'express';
 import ValidateLogin from '../middlewares/validationLogin';
+import ValidationsMatches from '../middlewares/validateMatches';
 
 import MatchesController from '../controllers/MatchesController';
 
@@ -21,6 +22,7 @@ router.patch(
 router.post(
   '/',
   ValidateLogin.validateToken,
+  ValidationsMatches.validateTeam,
   (req: Request, res: Response) => matchersController.createMatch(req, res),
 );
 
