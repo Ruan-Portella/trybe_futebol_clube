@@ -21,4 +21,12 @@ export default class MatcheModel implements IMachesModel {
     await this.model.update({ inProgress: false }, { where: { id } });
     return true;
   }
+
+  public async updateMatch(id: number, homeTeam: number, awayTeam: number): Promise<boolean> {
+    await this.model.update(
+      { homeTeamGoals: homeTeam, awayTeamGoals: awayTeam },
+      { where: { id } },
+    );
+    return true;
+  }
 }
