@@ -15,4 +15,9 @@ export default class TeamController {
     const leaderBoard = await this.matchesService.getLeaderBoardAway();
     return res.status(200).json(leaderBoard);
   }
+
+  public async getLeaderBoard(req: Request, res: Response): Promise<Response> {
+    const leaderBoard = await this.matchesService.getLeaderBoard();
+    return res.status(200).json(leaderBoard);
+  }
 }
