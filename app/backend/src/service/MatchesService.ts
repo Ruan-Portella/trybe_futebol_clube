@@ -30,4 +30,19 @@ export default class MatchesService {
     await this.teamModel.updateMatch(id, homeTeam, awayTeam);
     return true;
   }
+
+  public async createMatch(
+    homeTeamId: number,
+    awayTeamId: number,
+    homeTeamGoals: number,
+    awayTeamGoals: number,
+  ): Promise<IMatches> {
+    const match = await this.teamModel.createMatch(
+      homeTeamId,
+      awayTeamId,
+      homeTeamGoals,
+      awayTeamGoals,
+    );
+    return match;
+  }
 }
