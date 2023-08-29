@@ -9,4 +9,9 @@ export default class UserModel implements IUsersModel {
     const user = await this.model.findOne({ where: { email } });
     return user;
   }
+
+  public async findById(id: string): Promise<IUsers | null> {
+    const user = await this.model.findOne({ where: { id } });
+    return user;
+  }
 }
